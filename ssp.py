@@ -49,11 +49,13 @@ def binning(shifts, binsize, shift_min, num_1D_grid):
     for ppm_value in shifts:
     
         bin_index = int((ppm_value - shift_min) // binsize)
-        if bin_index > (num_1D_grid - 1): 
-            bin_index = num_1D_grid - 1 
-        elif bin_index < 0:
-            bin_index = 0 
-
+        if bin_index > (num_1D_grid - 1): # to large for set grid limits
+            continue # ignore peak
+            # bin_index = num_1D_grid - 1 # append to largest quadrant
+        elif bin_index < 0: # to small for set grid limits
+            continue # ignore peak
+            # bin_index = 0 # append to smallest quadrant
+        
         bin_indexes.append(bin_index)
 
 
@@ -89,12 +91,15 @@ if __name__ == "__main__":
 
     hsqc = dp.getCurrentDataset()
     peak_list = hsqc.getPeakList()
+
+    
     
     H_shifts = []
     N_shifts = []
     for peak in peak_list:
-        H_shifts.append(peak["position"][0])
-        N_shifts.append(peak["position"][1])
+        if peak["intensity"] > 0: # negative intensity ==> sidechain NH(2)
+            H_shifts.append(peak["position"][0])
+            N_shifts.append(peak["position"][1])
 
     #peak_list = pd.read_csv("/opt/topspin4.2.0/python/examples/SSP/peak_list_ubiquitin.csv")
 
