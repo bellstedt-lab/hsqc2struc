@@ -1,3 +1,4 @@
+
 import pandas as pd
 import numpy as np
 from catboost import CatBoostRegressor
@@ -92,15 +93,22 @@ if __name__ == "__main__":
     hsqc = dp.getCurrentDataset()
     peak_list = hsqc.getPeakList()
 
+    #for i in range(len(peak_list)):
+    #    print(peak_list[i])
     
     
     H_shifts = []
     N_shifts = []
+
+    max_intensity = np.max([peak["intensity"] for peak in peak_list])
+    
     for peak in peak_list:
-        if peak["intensity"] > 0: # negative intensity ==> sidechain NH(2)
+        rel_intensity = peak["intensity"] / max_intensity
+        if rel_intensity > 0.18: # negative intensity ==> sidechain NH(2) ### here you can adjust sensitivity!!!!!!!!!!!!!!!!!!!!!!
             H_shifts.append(peak["position"][0])
             N_shifts.append(peak["position"][1])
 
+    
     #peak_list = pd.read_csv("/opt/topspin4.2.0/python/examples/SSP/peak_list_ubiquitin.csv")
 
     #N_shifts = peak_list["x(F1) [ppm]"].to_list()
@@ -135,3 +143,4 @@ if __name__ == "__main__":
     predictor.combine_inputs()
     prediction = predictor.predict_structure_composition()
     print(f" Secondary Structure Prediction \n -------------------------------- \n Coil: {round(prediction[0],3)*100}% \n Sheet: {round(prediction[1],3)*100}% \n Helix: {round(prediction[2],3)*100}%")
+    
