@@ -125,7 +125,7 @@ if __name__ == "__main__":
     N_shift_max = 140 
     N_shift_min = 90
     
-    for H_num_1D_grid, N_num_1D_grid in [(20,10),(26,10),(10,8)]:
+    for H_num_1D_grid, N_num_1D_grid in [(10,20),(10,26),(8,10)]:
     
         H_binsize = (H_shift_max - H_shift_min) / H_num_1D_grid
         N_binsize = (N_shift_max - N_shift_min) / N_num_1D_grid
