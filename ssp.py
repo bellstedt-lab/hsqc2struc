@@ -1,4 +1,5 @@
-
+import sys
+import os
 import pandas as pd
 import numpy as np
 from catboost import CatBoostRegressor
@@ -87,32 +88,40 @@ def generate_count_peaks_matrix(binned_H_shifts, binned_N_shifts, H_num_1D_grid,
 
 if __name__ == "__main__":
 
-    top = Topspin()
-    dp = top.getDataProvider()
+    if len(sys.argv) > 1 and sys.argv[1] == "test":
+        print("*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+")
+        print("Ubiquitin prediction from 5387 backbone spectrum of the BMRB")
+        print("*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+")
+        peak_list = pd.read_csv("/opt/topspin4.2.0/python/examples/SSP/BMRB_peak_list_ubiquitin.csv")
+        N_shifts = peak_list["Y_shift"].to_list()
+        H_shifts = peak_list["X_shift"].to_list()
 
-    hsqc = dp.getCurrentDataset()
-    peak_list = hsqc.getPeakList()
+    elif len(sys.argv) > 1 and sys.argv[1].endswith(".csv"):
+        print("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ")
+        print(f"Spectrum prediction from {os.getcwd() + '/' + sys.argv[1]}")
+        print("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ")
+        peak_list = pd.read_csv(sys.argv[1])
+        N_shifts = peak_list["x(F1) [ppm]"].to_list()
+        H_shifts = peak_list["x(F2) [ppm]"].to_list()
 
-    #for i in range(len(peak_list)):
-    #    print(peak_list[i])
-    
-    
-    H_shifts = []
-    N_shifts = []
+    else:
+        top = Topspin()
+        dp = top.getDataProvider()
 
-    max_intensity = np.max([peak["intensity"] for peak in peak_list])
-    
-    for peak in peak_list:
-        rel_intensity = peak["intensity"] / max_intensity
-        if rel_intensity > 0.18: # negative intensity ==> sidechain NH(2) ### here you can adjust sensitivity!!!!!!!!!!!!!!!!!!!!!!
-            H_shifts.append(peak["position"][0])
-            N_shifts.append(peak["position"][1])
+        hsqc = dp.getCurrentDataset()
+        peak_list = hsqc.getPeakList()
 
-    
-    #peak_list = pd.read_csv("/opt/topspin4.2.0/python/examples/SSP/peak_list_ubiquitin.csv")
+        
+        H_shifts = []
+        N_shifts = []
 
-    #N_shifts = peak_list["x(F1) [ppm]"].to_list()
-    #H_shifts = peak_list["x(F2) [ppm]"].to_list()
+        max_intensity = np.max([peak["intensity"] for peak in peak_list])
+        
+        for peak in peak_list:
+            rel_intensity = peak["intensity"] / max_intensity
+            if rel_intensity > 0.18: # negative intensity ==> sidechain NH(2) ### here you can adjust sensitivity!!!!!!!!!!!!!!!!!!!!!!
+                H_shifts.append(peak["position"][0])
+                N_shifts.append(peak["position"][1])
 
 
     predictor = SecStrucPredictor() 
