@@ -2,6 +2,10 @@ import sys
 import os
 import pandas as pd
 import numpy as np
+
+import warnings
+warnings.filterwarnings("ignore", message=".*The 'nopython' keyword.*")
+
 from catboost import CatBoostRegressor
 
 from bruker.api.topspin import Topspin
@@ -41,8 +45,49 @@ class SecStrucPredictor():
 
         return self.predictions 
 
+    
+    def calc_shap_values(self):
+        """calulates shap values for 540 quadrants for one sample"""
+
+        explainer = shap.TreeExplainer(self.predictor)
+        self.shap_values = explainer.shap_values([self.combined_inputs], [self.predictions])
+
+        return self
 
 
+    def build_shap_spectra(self):
+        """builds spectra based on calculated shap values"""
+        
+        fig, axs = plt.subplots(figsize=((15,10)), nrows=3, ncols=3)
+        fig.suptitle("Shap Values")
+
+        for i, (sec_struc_type, bin_type) in enumerate(zip(["Coil", "Sheet", "Helix"], ["20x10", "26x10", "10x8"])):
+            axs[0][i].set_title(bin_type)
+            axs[2][i].set_xlabel("H-shift in ppm", fontsize=13)
+            axs[i,0].set_ylabel(sec_struc_type + "\n N-Shift in ppm", fontsize=13)
+            spectra_20x10 = self.shap_values[i].ravel()[:200].reshape(20,10)
+            spectra_26x10 = self.shap_values[i].ravel()[200:460].reshape(26,10)
+            spectra_10x8 = self.shap_values[i].ravel()[460:].reshape(10,8)
+         
+            spectra = [spectra_20x10, spectra_26x10, spectra_10x8]
+
+            for ii, (spec, x, y, H_scale, N_scale) in enumerate(zip(spectra, [10,10,8], [20,26,10], [0.5,0.5,0.625], [2.5,1.9230769230769231,5])):
+
+                im = axs[i][ii].imshow(spec, cmap="tab20c", vmax=0.032, vmin=-0.032)    
+                cbar = fig.colorbar(im, extend="both")
+                axs[i][ii].set_xticks(np.arange(x))
+                axs[i][ii].set_yticks(np.arange(y))
+
+                #axs[i][ii].set_xlabel("H-Shift in ppm")
+                #axs[i][ii].set_ylabel("N-Shift in ppm")
+
+                axs[i][ii].set_xticks(np.arange(x), [str(round(i,1)) for i in np.arange(6,11,H_scale)], rotation=45)
+                axs[i][ii].set_yticks(np.arange(y), [str(round(i,1)) for i in np.arange(90,140,N_scale)])
+                
+                axs[i][ii].set_xlim(x-0.5,-0.5)
+
+        plt.tight_layout()
+        plt.show()
 
     
 def binning(shifts, binsize, shift_min, num_1D_grid):
@@ -88,6 +133,7 @@ def generate_count_peaks_matrix(binned_H_shifts, binned_N_shifts, H_num_1D_grid,
 
 if __name__ == "__main__":
 
+    
     if len(sys.argv) > 1 and sys.argv[1] == "test":
         print("*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+")
         print("Ubiquitin prediction from 5387 backbone spectrum of the BMRB")
@@ -119,7 +165,7 @@ if __name__ == "__main__":
         
         for peak in peak_list:
             rel_intensity = peak["intensity"] / max_intensity
-            if rel_intensity > 0.18: # negative intensity ==> sidechain NH(2) ### here you can adjust sensitivity!!!!!!!!!!!!!!!!!!!!!!
+            if rel_intensity > 0: # negative intensity ==> sidechain NH(2) ### here you can adjust sensitivity!!!!!!!!!!!!!!!!!!!!!!
                 H_shifts.append(peak["position"][0])
                 N_shifts.append(peak["position"][1])
 
@@ -151,5 +197,14 @@ if __name__ == "__main__":
     predictor.get_input(input_matrices)
     predictor.combine_inputs()
     prediction = predictor.predict_structure_composition()
+
     print(f" Secondary Structure Prediction \n -------------------------------- \n Coil: {round(prediction[0],3)*100}% \n Sheet: {round(prediction[1],3)*100}% \n Helix: {round(prediction[2],3)*100}%")
+    
+    #print("I need to update the requirement file")
+
+    if "shap" in sys.argv:
+        import matplotlib.pyplot as plt
+        import shap
+        predictor.calc_shap_values()
+        predictor.build_shap_spectra()
     
