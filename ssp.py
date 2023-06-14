@@ -147,16 +147,19 @@ if __name__ == "__main__":
         print(f"Spectrum prediction from {os.getcwd() + '/' + sys.argv[1]}")
         print("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ")
         peak_list = pd.read_csv(sys.argv[1])
-        N_shifts = peak_list["x(F1) [ppm]"].to_list()
-        H_shifts = peak_list["x(F2) [ppm]"].to_list()
+        #N_shifts = peak_list["x(F1) [ppm]"].to_list()
+        #H_shifts = peak_list["x(F2) [ppm]"].to_list()
+        N_shifts = peak_list["Y_shift"].to_list()
+        H_shifts = peak_list["X_shift"].to_list()
 
     else:
         top = Topspin()
         dp = top.getDataProvider()
 
         hsqc = dp.getCurrentDataset()
+        # if no peak list raise Error
         peak_list = hsqc.getPeakList()
-
+        
         
         H_shifts = []
         N_shifts = []
@@ -198,7 +201,7 @@ if __name__ == "__main__":
     predictor.combine_inputs()
     prediction = predictor.predict_structure_composition()
 
-    print(f" Secondary Structure Prediction \n -------------------------------- \n Coil: {round(prediction[0],3)*100}% \n Sheet: {round(prediction[1],3)*100}% \n Helix: {round(prediction[2],3)*100}%")
+    print(f" Secondary Structure Prediction \n -------------------------------- \n Helix: {prediction[2]*100:.1f}%  \n Sheet: {prediction[1]*100:.1f}% \n Coil: {prediction[0]*100:.1f}%")
     
     #print("I need to update the requirement file")
 
