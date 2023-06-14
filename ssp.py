@@ -204,7 +204,7 @@ if __name__ == "__main__":
     predictor.combine_inputs()
     prediction = predictor.predict_structure_composition()
 
-    print(f" Secondary Structure Prediction \n -------------------------------- \n Helix: {prediction[2]*100:.1f}%  \n Sheet: {prediction[1]*100:.1f}% \n Coil: {prediction[0]*100:.1f}%")
+    print(f" Secondary Structure Prediction \n -------------------------------- \n Helix: {round(prediction[2],3)*100:.1f}%  \n Sheet: {round(prediction[1],3)*100:.1f}% \n Coil: {round(prediction[0],3)*100:.1f}%")
     
     #print("I need to update the requirement file")
 
