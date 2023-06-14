@@ -215,5 +215,8 @@ if __name__ == "__main__":
         predictor.build_shap_spectra()
 
     if sys.argv[1] == "test":
-        pass
-    
+        if str(21.2) == str(round(prediction[2],3)*100)[:4] and str(36.1) ==str(round(prediction[1],3)*100)[:4] and str(42.8) == str(round(prediction[0],3)*100)[:4]:
+            print("\n \n \t \t <<< PREDICTION TEST PASSED >>> ")
+        else:
+            print("\n \n \t \t >>> PREDICTION TEST FAILED!!!!!!! <<< ")
+            print("Possibly you are currently using a different model") 
