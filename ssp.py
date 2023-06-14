@@ -157,9 +157,12 @@ if __name__ == "__main__":
         dp = top.getDataProvider()
 
         hsqc = dp.getCurrentDataset()
-        # if no peak list raise Error
+
         peak_list = hsqc.getPeakList()
-        
+
+        if len(peak_list) == 0:
+            raise ValueError("NO PEAKS SELECTED! Use the pp command or select the peaks manually!")
+
         
         H_shifts = []
         N_shifts = []
@@ -210,4 +213,7 @@ if __name__ == "__main__":
         import shap
         predictor.calc_shap_values()
         predictor.build_shap_spectra()
+
+    if sys.argv[1] == "test":
+        pass
     
