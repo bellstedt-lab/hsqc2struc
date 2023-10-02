@@ -17,7 +17,7 @@ class SecStrucPredictor():
     def __init__(self):
         """initializes the input matrices and loads the predictor model"""
         self.predictor = CatBoostRegressor()
-        self.predictor.load_model("/opt/topspin4.2.0/python/examples/SSP/Model.cbm")
+        self.predictor.load_model("/opt/topspin4.2.0/python/examples/SSP/JD_8257_3979_NxH_a14x10_b10x8_c16x12.cbm")
     
 
     def get_input(self, input_matrices):
