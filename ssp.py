@@ -61,30 +61,37 @@ class SecStrucPredictor():
         fig, axs = plt.subplots(figsize=((15,10)), nrows=3, ncols=3)
         fig.suptitle("Shap Values")
 
-        for i, (sec_struc_type, bin_type) in enumerate(zip(["Coil", "Sheet", "Helix"], ["20x10", "26x10", "10x8"])):
-            axs[0][i].set_title(bin_type)
-            axs[2][i].set_xlabel("H-shift in ppm", fontsize=13)
-            axs[i,0].set_ylabel(sec_struc_type + "\n N-Shift in ppm", fontsize=13)
-            spectra_20x10 = self.shap_values[i].ravel()[:200].reshape(20,10)
-            spectra_26x10 = self.shap_values[i].ravel()[200:460].reshape(26,10)
-            spectra_10x8 = self.shap_values[i].ravel()[460:].reshape(10,8)
-         
-            spectra = [spectra_20x10, spectra_26x10, spectra_10x8]
+        for i, (sec_struc_type, bin_type) in enumerate(zip(["Coil", "Sheet", "Helix"], ["14x10", "10x8", "16x12"])):
+			axs[0][i].set_title(bin_type)
+			axs[2][i].set_xlabel("H-shift in ppm", fontsize=13)
+			axs[i,0].set_ylabel(sec_struc_type + "\n N-Shift in ppm", fontsize=13)
+			spectra_14x10 = self.shap_values[i].ravel()[:140].reshape(14,10)
+			
+			spectra_10x8 = self.shap_values[i].ravel()[140:220].reshape(10,8)
+			spectra_16x12 = self.shap_values[i].ravel()[220:].reshape(16,12)
+		 
+			spectra = [spectra_14x10, spectra_10x8, spectra_16x12]
 
-            for ii, (spec, x, y, H_scale, N_scale) in enumerate(zip(spectra, [10,10,8], [20,26,10], [0.5,0.5,0.625], [2.5,1.9230769230769231,5])):
+			for ii, (spec, x, y, H_scale, N_scale) in enumerate(zip(spectra, [10,8,12], [14,10,16], [0.5,0.625,0.4166666666666667], [3.5714285714285716,5,3.125])):
 
-                im = axs[i][ii].imshow(spec, cmap="tab20c", vmax=0.032, vmin=-0.032)    
-                cbar = fig.colorbar(im, extend="both")
-                axs[i][ii].set_xticks(np.arange(x))
-                axs[i][ii].set_yticks(np.arange(y))
+				im = axs[i][ii].imshow(spec, cmap="coolwarm", vmax=0.032, vmin=-0.032)
+				cbar = fig.colorbar(im, extend="both")
+				axs[i][ii].set_xticks(np.arange(x))
+				axs[i][ii].set_yticks(np.arange(y))
 
-                #axs[i][ii].set_xlabel("H-Shift in ppm")
-                #axs[i][ii].set_ylabel("N-Shift in ppm")
+				#axs[i][ii].set_xlabel("H-Shift in ppm")
+				#axs[i][ii].set_ylabel("N-Shift in ppm")
 
-                axs[i][ii].set_xticks(np.arange(x), [str(round(i,1)) for i in np.arange(6,11,H_scale)], rotation=45)
-                axs[i][ii].set_yticks(np.arange(y), [str(round(i,1)) for i in np.arange(90,140,N_scale)])
-                
-                axs[i][ii].set_xlim(x-0.5,-0.5)
+				
+				axs[i][ii].set_xticks(np.arange(x), [str(round(i,1)) for i in np.arange(6,11,H_scale)], rotation=45)
+				axs[i][ii].set_yticks(np.arange(y), [str(round(i,1)) for i in np.arange(90,140,N_scale)])
+				
+				axs[i][ii].set_xlim(x-0.5,-0.5)
+
+				N_shifts = sorted(list(range(spec.shape[0]))*spec.shape[1])
+				H_shifts = list(range(spec.shape[1]))*spec.shape[0]
+
+				axs[i][ii].scatter(x=H_shifts, y=N_shifts, s=count_matrix[ii], color="black", alpha=0.3) 
 
         plt.tight_layout()
         plt.show()
