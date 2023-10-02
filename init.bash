@@ -4,4 +4,4 @@ ln -s ../ssp.py ssp.py
 # move to parent directory
 cd ..
 # create a new conda environment (has to be set in topspin as python 3 env)
-conda create --name sec-struc-predictor --file SSP/requirements.txt
+conda create --name hsqc2struc --file hsqc2struc/requirements.txt
