@@ -8,12 +8,12 @@ HSQC2STRUC is a Python 3 script to predict the secondary structure composition o
 - conda
 
 ## Installation
-Go to /opt/topspin4.2.0/python/examples/ (on MacOS) and use 
+Go to /opt/topspin4.2.0/python/examples/ (on MacOS & Linux) and use 
 ```git clone https://github.com/bellstedt-lab/hsqc2struc```.
 then
 ```bash init.bash```
-now it should take some time to create a new conda environment and install all dependencies.
-If successful open TopSpin and type ```set``` in the command line and select the just created environment. 
+now it should take some time to create a new conda environment and install all dependencies. If you observe an "xcrun error: invalid active developer path" error on MacOS, please run "xcode-select --install".
+If successful, open TopSpin and type ```set``` in the command line and select the just created environment. 
 To find the path of the conda environment, you need to enter ```conda activate Sec-struc-pred``` followed by ```which python```. Copy the given path and set it as a new Python environment.
 
 ## Usage
