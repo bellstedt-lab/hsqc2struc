@@ -1,8 +1,7 @@
-# SSP
+# HSQC-to-STRUC
 [![License](https://img.shields.io/badge/License-MIT%202.0-blue.svg)](https://opensource.org/licenses/MIT)
 
-![GitHub Logo](https://github.com/joaldi2208/SSP/blob/main/Logo.jpg?raw=true)
-SSP stands for Secondary Structure Predictor and is a python 3 script to predict the secondary structure composition of proteins by using their N-HSQC spectra. This program is intended to be used as a command line tool in TopSpin 4.2.
+HSQC2STRUC is a Python 3 script to predict the secondary structure composition of proteins by using their unassigned 1H,15N-HSQC spectra. This program is intended to be used as a command line tool in TopSpin 4.2. Furthermore, the CatBoost model can be integrated into any custom script. However, due to simplicity, we recommend using our web service at https://hsqc2struc.bellstedt-lab.ch, which relies on exactly the same machine learning model.
 
 ## Requirements
 - TopSpin 4.2
@@ -15,17 +14,12 @@ then
 ```bash init.bash```
 now it should take some time to create a new conda environment and install all dependencies.
 If successful open TopSpin and type ```set``` in the command line and select the just created environement. 
-To find the path of the conda environment you need to enter ```conda activate Sec-struc-pred``` followed by ```which python````. Copy the given path and set it as new python environment. Also activate the networking???.
-
+To find the path of the conda environment you need to enter ```conda activate Sec-struc-pred``` followed by ```which python````. Copy the given path and set it as new Python environment.
 
 ## Usage
-Simply type xpy3 ssp in the TopSpin 4.2 command line, while having an HSQC spectra open at the same time. After a few seconds a new pop up window should appear with the predicted secondary structure composition in percent.
-pictures should explain it in detail. 
+Load Protein HSQC spectrum, perform peak-picking, and ensure that the sidechain NH2 groups are not (!) picked. Type "xpy3 ssp" in the TopSpin command line. After a few seconds, a new pop-up window should appear with the predicted secondary structure composition in percent. If you also want to include the SHAP plots, type "xpy3 ssp shap".
+ 
 
-## Further development
-This program was part of a master thesis and will not be actively developed by the author in the future. More about the research and programs can be found in the following repository or ...
-Since the the NMR databases are growing very fast updating the model could be useful with some time (Last update Nov 2022). Therefore use the workflow described in the mentioned repository (not intended for non programmers).
 
 ## More information about the supporting research groups
-[![GitHub Logo](https://github.com/Kohulan/DECIMER-Image-to-SMILES/blob/master/assets/CheminfGit.png?raw=true)](https://cheminf.uni-jena.de)
-Logo of Peter Bellstedt's group from Zürich University
+[![GitHub Logo](https://www.bellstedt-lab.ch/images/logo_blab_400px.png)](https://www.bellstedt-lab.ch)
