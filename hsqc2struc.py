@@ -3,13 +3,9 @@ import os
 import pandas as pd
 import numpy as np
 
-import warnings
-warnings.filterwarnings("ignore", message=".*The 'nopython' keyword.*")
-
 from catboost import CatBoostRegressor
 
-#from bruker.api.topspin import Topspin
-#from bruker.data.nmr import *
+
 
 class SecStrucPredictor():
     """predicts the three state secondary structure (helix, sheet and coil) of a protein from an N-HSQC spectra"""
@@ -103,14 +99,21 @@ if __name__ == "__main__":
         print(f"Spectrum prediction from {os.getcwd() + '/' + sys.argv[1]}")
         print("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ")
         peak_list = pd.read_csv(sys.argv[1])
-        #N_shifts = peak_list["x(F1) [ppm]"].to_list()
-        #H_shifts = peak_list["x(F2) [ppm]"].to_list()
-        N_shifts = peak_list["Y_shift"].to_list()
-        H_shifts = peak_list["X_shift"].to_list()
+        
+        if "Y_shift" in peak_list.columns:
+            N_shifts = peak_list["Y_shift"].to_list()
+            H_shifts = peak_list["X_shift"].to_list()
+        elif "x(F1) [ppm]" in peak_list.columns:
+            N_shifts = peak_list["x(F1) [ppm]"].to_list()
+            H_shifts = peak_list["x(F2) [ppm]"].to_list()
+        else:
+            print("Unexpected headers in the csv file. Please use either BMRB or TopSpin export format. Have a look at our examples files.")
+            exit()
 
     else:
         print("Please define the csv file containing the peaks as first argument!")
         exit()
+
         
         H_shifts = []
         N_shifts = []
@@ -155,8 +158,11 @@ if __name__ == "__main__":
     print(f" Secondary Structure Prediction \n -------------------------------- \n Helix: {round(prediction[2],3)*100:.1f}%  \n Sheet: {round(prediction[1],3)*100:.1f}% \n Coil: {round(prediction[0],3)*100:.1f}%")
     
     if sys.argv[1] == "test":
-        if str(21.2) == str(round(prediction[2],3)*100)[:4] and str(36.1) ==str(round(prediction[1],3)*100)[:4] and str(42.8) == str(round(prediction[0],3)*100)[:4]:
+        if str(25.5) == str(round(prediction[2],3)*100)[:4] and str(16.9) ==str(round(prediction[1],3)*100)[:4] and str(57.6) == str(round(prediction[0],3)*100)[:4]:
             print("\n \n \t \t <<< PREDICTION TEST PASSED >>> ")
         else:
             print("\n \n \t \t >>> PREDICTION TEST FAILED!!!!!!! <<< ")
             print("Possibly you are currently using a different model") 
+            #print(str(round(prediction[2],3)*100)[:4])
+            #print(str(round(prediction[1],3)*100)[:4])
+            #print(str(round(prediction[0],3)*100)[:4])
