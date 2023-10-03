@@ -3,15 +3,18 @@
 
 HSQC2STRUC is a Python 3 script to predict the secondary structure composition of proteins by using their unassigned 1H,15N-HSQC spectra. This program is intended to be used as a command line tool in TopSpin 4.2. Furthermore, the CatBoost model per se can be integrated into any custom script. However, due to simplicity, we recommend using our web service at https://hsqc2struc.bellstedt-lab.ch, which relies on exactly the same machine-learning model.
 
-## Python example script
+## Command line script
 ### Requirements
-- phython3
-- pip
+- python3
+- conda
 
 ### Installation
-1. Install the required python packages: ```python3 -m pip install numpy pandas catboost```
-1. Execute ```git clone https://github.com/bellstedt-lab/hsqc2struc```
-1. Change into the new hsqc2struc directory and now you are ready to use our model (see next section)
+1. Create new conda environment with `conda create --name hsqc2struc_cmdline`
+2. Activate the new environment with `conda activate hsqc2struc_cmdline`
+3. Install pip for the handling of the required packages: `conda install pip`
+4. Install the required python packages: `python3 -m pip install numpy pandas catboost`
+5. Execute `git clone https://github.com/bellstedt-lab/hsqc2struc`
+6. Change into the new hsqc2struc directory and now you are ready to use our model (see next section)
 
 ### Usage
 Run ```python3 hsqc2struc.py peak_list_ubiquitin.csv``` and the secondary structure content of Ubiquitin will be predicted using our CatBoost model. Feel free to adapt the example script and to run the command with your own HSQC peak list (*.csv). Be careful not (!) to include any peaks belonging to side chain NH2 groups. 
