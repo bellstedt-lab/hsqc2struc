@@ -17,23 +17,32 @@ HSQC2STRUC is a Python 3 script to predict the secondary structure composition o
 6. Change into the new hsqc2struc directory and now you are ready to use our model (see next section)
 
 ### Usage
-Run ```python3 hsqc2struc.py peak_list_ubiquitin.csv``` and the secondary structure content of Ubiquitin will be predicted using our CatBoost model. Feel free to adapt the example script and to run the command with your own HSQC peak list (*.csv). Be careful not (!) to include any peaks belonging to side chain NH2 groups. 
+- Please be sure to activate the conda environment before executing the script
+- Run `python3 hsqc2struc.py test` to check if everything If the test is passed, continue.
+- Run `python3 hsqc2struc.py BMRB_peak_list_ubiquitin.csv` or python3 hsqc2struc.py peak_list_ubiquitin.csv` to predict the secondary structure content of Ubiquitin using our CatBoost model. Feel free to adapt the example script and run the command with your own HSQC peak list (*.csv). Be sure to have the same (header) structure in your own peak list that corresponds to either of the provided examples input files. Also, be careful not (!) to include any peaks belonging to side chain NH2 groups. Alternatively, you can collect HSQC-DEPT spectra and phase the spectrum so that the NH2 groups have negative intensities (which are then ignored by the predictor).
+
+### Deinstallation
+1. Deactivate the conda environment (if necessary) with `conda deactivate`
+2. Delete the conda environment with `conda remove --name hsqc2struc_cmdline --all`
+3. Remove the hsqc2struc directory with `rm -Rf hsqc2struc`
 
 ## Integration into Bruker TopSpin
 ### Requirements
-- TopSpin 4.2
+- TopSpin >= 4.2
 - conda
   
 ### Installation
-Go to /opt/topspin4.2.0/python/examples/ (on MacOS & Linux) and execute ```git clone https://github.com/bellstedt-lab/hsqc2struc```. Change into the new hsqc2struc directory and run ```bash init.bash``` to install the requirements. 
-now it should take some time to create a new conda environment and install all dependencies. If you observe an "xcrun error: invalid active developer path" error on MacOS, please run "xcode-select --install".
-If successful, open TopSpin and type ```set``` in the command line and select the just created environment. 
-To find the path of the conda environment, you need to enter ```conda activate hsqc2struc``` followed by ```which python```. Copy the given path and set it as a new Python environment.
+1. Open a terminal and go to /opt/topspin4.X.Y/python/examples/ (on Linux). If you do not have this directory, please have a look at the Bruker Website / Documentation to reinstall the TopSpin Python Interface. 
+2. Execute `git clone https://github.com/bellstedt-lab/hsqc2struc`, change into the new hsqc2struc directory, and run `bash init.bash` to create the conda environment and to install the the requirements.
+3. Activate the environment with `conda activate hsqc2struc` and identify the location of the python executable with `which python` (copy the path into the clipboard or write it down)
+4. Open TopSpin and type `set` in the command line, click on the "Change" Button next to "Select Python 3+ Environment" and paste or enter the location of the Python executable just identified.
+5. Still in the preferences window, click on "Change" next to "Manage TopSpin Network Interface", enter your Admin password and Start the Network Interface. For your convenience, you can check the autostart option below.
 
 ### Usage
-Load Protein HSQC spectrum, perform peak-picking, and ensure that the sidechain NH2 groups are not (!) picked. Type "xpy3 ssp" in the TopSpin command line. After a few seconds, a new pop-up window should appear with the predicted secondary structure composition in percent. If you also want to include the SHAP plots, type "xpy3 ssp shap".
+- Collect/Load Protein 1H,15N-HSQC spectrum
+- Perform peak-picking (enter "pp" in TopSpin's command line), and ensure that the sidechain NH2 groups are not (!) picked. Alternatively, you can collect a 1H,15N-HSQC-DEPT spectrum and phase the spectrum so that the NH2 groups have negative intensities (which are then ignored by the predictor).
+- Type "xpy3 ssp" in the TopSpin command line. After a few seconds, a new pop-up window should appear with the predicted secondary structure composition in percent.
+- If you also want to include the SHAP plots, type "xpy3 ssp shap".
  
-
-
 ## More information about the contributing research group
 [![GitHub Logo](https://www.bellstedt-lab.ch/images/logo_blab_400px.png)](https://www.bellstedt-lab.ch)
