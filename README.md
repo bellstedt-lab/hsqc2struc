@@ -3,7 +3,7 @@
 
 HSQC2STRUC is a Python 3 script to predict the secondary structure composition of proteins by using their unassigned 1H,15N-HSQC spectra. This program is intended to be used as a command line tool in TopSpin 4.2. Furthermore, the CatBoost model per se can be integrated into any custom script. However, due to simplicity, we recommend using our web service at https://hsqc2struc.bellstedt-lab.ch, which relies on exactly the same machine-learning model.
 
-## Integration into own custom scripts
+## Python example script
 ### Requirements
 - phython3
 - pip
@@ -14,7 +14,7 @@ HSQC2STRUC is a Python 3 script to predict the secondary structure composition o
 1. Change into the new hsqc2struc directory and now you are ready to use our model (see next section)
 
 ### Usage
-Run ```python3 hsqc2struc.py peak_list_ubiquitin.csv``` and the secondary structure content of Ubiquitin will be predicted using our CatBoost model. NOw you are ready to adopt the expample script and to run the command with your own csv HSQC peak list. Be carefull not (!) to include any peaks belonging to side chain NH2 groups. 
+Run ```python3 hsqc2struc.py peak_list_ubiquitin.csv``` and the secondary structure content of Ubiquitin will be predicted using our CatBoost model. Feel free to adapt the example script and to run the command with your own HSQC peak list (*.csv). Be careful not (!) to include any peaks belonging to side chain NH2 groups. 
 
 ## Integration into Bruker TopSpin
 ### Requirements
