@@ -19,7 +19,7 @@ HSQC2STRUC is a Python 3 script to predict the secondary structure composition o
 ### Usage
 - Please be sure to activate the conda environment before executing the script
 - Run `python3 hsqc2struc.py test` to check if everything If the test is passed, continue.
-- Run `python3 hsqc2struc.py BMRB_peak_list_ubiquitin.csv` or python3 hsqc2struc.py peak_list_ubiquitin.csv` to predict the secondary structure content of Ubiquitin using our CatBoost model. Feel free to adapt the example script and run the command with your own HSQC peak list (*.csv). Be sure to have the same (header) structure in your own peak list that corresponds to either of the provided examples input files. Also, be careful not (!) to include any peaks belonging to side chain NH2 groups. Alternatively, you can collect HSQC-DEPT spectra and phase the spectrum so that the NH2 groups have negative intensities (which are then ignored by the predictor).
+- Run `python3 hsqc2struc.py BMRB_peak_list_ubiquitin.csv` or `python3 hsqc2struc.py peak_list_ubiquitin.csv` to predict the secondary structure content of Ubiquitin using our CatBoost model. Feel free to adapt the example script and run the command with your own HSQC peak list (*.csv). Be sure to have the same (header) structure in your own peak list that corresponds to either of the provided examples input files. Also, be careful not (!) to include any peaks belonging to side chain NH2 groups. Alternatively, you can collect HSQC-DEPT spectra and phase the spectrum so that the NH2 groups have negative intensities (which are then ignored by the predictor).
 
 ### Deinstallation
 1. Deactivate the conda environment (if necessary) with `conda deactivate`
@@ -43,6 +43,11 @@ HSQC2STRUC is a Python 3 script to predict the secondary structure composition o
 - Perform peak-picking (enter "pp" in TopSpin's command line), and ensure that the sidechain NH2 groups are not (!) picked. Alternatively, you can collect a 1H,15N-HSQC-DEPT spectrum and phase the spectrum so that the NH2 groups have negative intensities (which are then ignored by the predictor).
 - Type "xpy3 ssp" in the TopSpin command line. After a few seconds, a new pop-up window should appear with the predicted secondary structure composition in percent.
 - If you also want to include the SHAP plots, type "xpy3 ssp shap".
+
+## Deinstallation
+1. Delete the conda environment with `conda remove --name hsqc2struc --all`
+2. Delete the hsqc2struc folder from the topspin subdirectory ( `rm -Rf /opt/topspin4.X.Y/python/examples/hsqc2struc` )
+3. Remove the symbolic link created in the example directory with `rm /opt/topspin4.X.Y/python/examples/ssp.py`
  
 ## More information about the contributing research group
 [![GitHub Logo](https://www.bellstedt-lab.ch/images/logo_blab_400px.png)](https://www.bellstedt-lab.ch)
