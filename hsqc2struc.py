@@ -110,8 +110,7 @@ if __name__ == "__main__":
 
     else:
         print("Please define the csv file containing the peaks as first argument!")
-		exit()
-
+        exit()
         
         H_shifts = []
         N_shifts = []
