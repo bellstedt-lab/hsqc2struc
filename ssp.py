@@ -193,8 +193,9 @@ if __name__ == "__main__":
 
     N_shift_max = 140 
     N_shift_min = 90
-    
-    for H_num_1D_grid, N_num_1D_grid in [(10,20),(10,26),(8,10)]:
+
+    # NxH binning: 14x10 (helix), 10x8 (sheet), 16x12 (coil); values are inverted here:
+    for H_num_1D_grid, N_num_1D_grid in [(10,14),(8,10),(12,16)]:
     
         H_binsize = (H_shift_max - H_shift_min) / H_num_1D_grid
         N_binsize = (N_shift_max - N_shift_min) / N_num_1D_grid
