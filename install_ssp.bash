@@ -17,7 +17,7 @@ source "$base_dir/etc/profile.d/conda.sh"
 
 conda create --name hsqc2struc python=3.10
 conda activate hsqc2struc
-conda install pip
+conda install pip --yes
 
 python3 -m pip install --upgrade -r requirements.txt ../ts_remote_api*.whl ../bruker_nmr_api*.whl --no-input
 ln -s ssp.py ../ssp.py
