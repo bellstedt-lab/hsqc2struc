@@ -2,6 +2,7 @@ import sys
 import os
 import pandas as pd
 import numpy as np
+import shap
 
 import warnings
 warnings.filterwarnings("ignore", message=".*The 'nopython' keyword.*")
