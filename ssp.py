@@ -26,20 +26,20 @@ class SecStrucPredictor():
 
     def get_input(self, input_matrices):
         """reads input matrix"""
-        self.matrix_20x10 = input_matrices[0]
-        self.matrix_26x10 = input_matrices[1]
-        self.matrix_10x8 = input_matrices[2]
+        self.matrix_14x10 = input_matrices[0]
+        self.matrix_10x8 = input_matrices[1]
+        self.matrix_16x12 = input_matrices[2]
 
         return self
     
 
     def combine_inputs(self):
         """combines and reshapes the input matrices"""
-        self.matrix_20x10_1D = self.matrix_20x10.reshape(-1)
-        self.matrix_26x10_1D = self.matrix_26x10.reshape(-1)
+        self.matrix_14x10_1D = self.matrix_14x10.reshape(-1)
         self.matrix_10x8_1D = self.matrix_10x8.reshape(-1)
+        self.matrix_16x12_1D = self.matrix_16x12.reshape(-1)
 
-        self.combined_inputs = list(self.matrix_20x10_1D) + list(self.matrix_26x10_1D) + list(self.matrix_10x8_1D)
+        self.combined_inputs = list(self.matrix_14x10_1D) + list(self.matrix_10x8_1D) + list(self.matrix_16x12_1D)
 
         return self
 
@@ -220,4 +220,4 @@ if __name__ == "__main__":
             print("\n \n \t \t <<< PREDICTION TEST PASSED >>> ")
         else:
             print("\n \n \t \t >>> PREDICTION TEST FAILED!!!!!!! <<< ")
-            print("Possibly you are currently using a different model?") 
+            print("Possibly you are currently using a different model?")
