@@ -31,8 +31,8 @@ HSQC2STRUC is a Python 3 script to predict the secondary structure composition o
 - TopSpin >= 4.2
 - conda
   
-### Installation
-1. Open a terminal and go to /opt/topspin4.X.Y/python/examples/ (on Linux). If you do not have this directory, please have a look at the Bruker Website / Documentation to reinstall the TopSpin Python Interface.
+### Manual Installation (recommended)
+1. Open a terminal and go to /opt/topspin4.*/python/examples/ (on Linux). If you do not have this directory, please have a look at the Bruker Website / Documentation to reinstall the TopSpin Python Interface.
 2. Create new conda environment with `conda create --name hsqc2struc python=3.10`
 3. Activate the new environment with `conda activate hsqc2struc`
 4. Install pip for the handling of the required packages: `conda install pip`
@@ -44,6 +44,13 @@ HSQC2STRUC is a Python 3 script to predict the secondary structure composition o
 8. Create a symbolic link so that TopSpin can find our predictor script: `ln -s hsqc2struc/ssp.py ssp.py`
 3. Activate the environment with `conda activate hsqc2struc` and identify the location of the python executable with `which python` (copy the path into the clipboard or write it down)
 5. Open TopSpin and type "set" in the command line, click on the "Change" Button next to "Select Python 3+ Environment" and paste or enter the location of the Python executable just identified.
+6. Still in the preferences window, click on "Change" next to "Manage TopSpin Network Interface", enter your Admin password and Start the Network Interface. For your convenience, you can check the autostart option below.
+
+### Installation via bash script
+1. Open a terminal and go to /opt/topspin4.*/python/examples/ (on Linux). If you do not have this directory, please have a look at the Bruker Website / Documentation to reinstall the TopSpin Python Interface.
+2. Execute `git clone https://github.com/bellstedt-lab/hsqc2struc` and change into the new hsqc2struc directory
+3. Run `bash install_ssp.bash` , copy the provided Python path
+4. Open TopSpin and type "set" in the command line, click on the "Change" Button next to "Select Python 3+ Environment" and paste or enter the location of the Python executable just identified.
 6. Still in the preferences window, click on "Change" next to "Manage TopSpin Network Interface", enter your Admin password and Start the Network Interface. For your convenience, you can check the autostart option below.
 
 ### Usage
