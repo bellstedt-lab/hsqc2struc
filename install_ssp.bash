@@ -19,11 +19,13 @@ conda create --name hsqc2struc python=3.10
 conda activate hsqc2struc
 conda install pip
 
-python3 -m pip install --upgrade requirements.txt ../ts_remote_api*.whl ../bruker_nmr_api*.whl --no-input
+python3 -m pip install --upgrade -r requirements.txt ../ts_remote_api*.whl ../bruker_nmr_api*.whl --no-input
 ln -s ssp.py ../ssp.py
 
 python_path=$(which python)
 
 echo "Installation (hopefully) finished"
+echo ""
 echo "Your Hsqc2Struc Python executable is located at: $python_path"
-echo " Please open TopSpin, enter 'set' in the commandline, navigate to Python3 Environment and paste the above path. Further Information can be found in the Readme.md file."
+echo ""
+echo " Please open TopSpin, enter 'set' in the command line, navigate to Python3 Environment, and paste in the above path. Further Information can be found in the Readme.md file."
