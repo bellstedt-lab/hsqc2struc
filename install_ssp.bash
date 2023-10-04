@@ -15,7 +15,7 @@ base_dir=$(dirname $(dirname $conda_path))
 # Run initialization script
 source "$base_dir/etc/profile.d/conda.sh"
 
-conda create --name hsqc2struc python=3.10
+conda create --name hsqc2struc python=3.10 --yes
 conda activate hsqc2struc
 conda install pip --yes
 
