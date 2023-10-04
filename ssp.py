@@ -62,8 +62,9 @@ class SecStrucPredictor():
     def build_shap_spectra(self):
         """builds spectra based on calculated shap values"""
         
+        count_matrix = [self.matrix_14x10_1D, self.matrix_10x8_1D, self.matrix_16x12_1D]
         fig, axs = plt.subplots(figsize=((15,10)), nrows=3, ncols=3)
-        fig.suptitle("Shap Values")
+        #fig.suptitle("Shap Values")
 
         for i, (sec_struc_type, bin_type) in enumerate(zip(["Coil", "Sheet", "Helix"], ["14x10", "10x8", "16x12"])):
             axs[0][i].set_title(bin_type)
@@ -76,6 +77,8 @@ class SecStrucPredictor():
          
             spectra = [spectra_14x10, spectra_10x8, spectra_16x12]
 
+            #for ii, (spec, x, y, H_scale, N_scale) in enumerate(zip(spectra, [10,10,8], [20,26,10], [0.5,0.5,0.625], [2.5,1.9230769230769231,5])):
+            
             for ii, (spec, x, y, H_scale, N_scale) in enumerate(zip(spectra, [10,8,12], [14,10,16], [0.5,0.625,0.4166666666666667], [3.5714285714285716,5,3.125])):
 
                 im = axs[i][ii].imshow(spec, cmap="coolwarm", vmax=0.032, vmin=-0.032)
@@ -95,8 +98,7 @@ class SecStrucPredictor():
                 N_shifts = sorted(list(range(spec.shape[0]))*spec.shape[1])
                 H_shifts = list(range(spec.shape[1]))*spec.shape[0]
 
-                axs[i][ii].scatter(x=H_shifts, y=N_shifts, s=count_matrix[ii], color="black", alpha=0.3) 
-
+                axs[i][ii].scatter(x=H_shifts, y=N_shifts, s=count_matrix[ii], color="black", alpha=0.3)
         plt.tight_layout()
         plt.show()
 
@@ -220,4 +222,4 @@ if __name__ == "__main__":
             print("\n \n \t \t <<< PREDICTION TEST PASSED >>> ")
         else:
             print("\n \n \t \t >>> PREDICTION TEST FAILED!!!!!!! <<< ")
-            print("Possibly you are currently using a different model?")
+            print("Possibly you are currently using a different model?") 
