@@ -1,5 +1,6 @@
 #!/usr/bin/bash
 
+cd ..
 conda create --name hsqc2struc python=3.10
 conda activate hsqc2struc
 conda install pip
