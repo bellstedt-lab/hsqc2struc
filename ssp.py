@@ -16,8 +16,11 @@ class SecStrucPredictor():
     
     def __init__(self):
         """initializes the input matrices and loads the predictor model"""
+        script_directory = os.path.dirname(os.path.abspath(__file__))
+        subdir_path = os.path.join(script_directory, "hsqc2struc")
+
         self.predictor = CatBoostRegressor()
-        self.predictor.load_model("/opt/topspin4.2.0/python/examples/SSP/JD_8257_3979_NxH_a14x10_b10x8_c16x12.cbm")
+        self.predictor.load_model(subdir_path+"/JD_8257_3979_NxH_a14x10_b10x8_c16x12.cbm")
     
 
     def get_input(self, input_matrices):
@@ -62,36 +65,36 @@ class SecStrucPredictor():
         fig.suptitle("Shap Values")
 
         for i, (sec_struc_type, bin_type) in enumerate(zip(["Coil", "Sheet", "Helix"], ["14x10", "10x8", "16x12"])):
-			axs[0][i].set_title(bin_type)
-			axs[2][i].set_xlabel("H-shift in ppm", fontsize=13)
-			axs[i,0].set_ylabel(sec_struc_type + "\n N-Shift in ppm", fontsize=13)
-			spectra_14x10 = self.shap_values[i].ravel()[:140].reshape(14,10)
-			
-			spectra_10x8 = self.shap_values[i].ravel()[140:220].reshape(10,8)
-			spectra_16x12 = self.shap_values[i].ravel()[220:].reshape(16,12)
-		 
-			spectra = [spectra_14x10, spectra_10x8, spectra_16x12]
+            axs[0][i].set_title(bin_type)
+            axs[2][i].set_xlabel("H-shift in ppm", fontsize=13)
+            axs[i,0].set_ylabel(sec_struc_type + "\n N-Shift in ppm", fontsize=13)
+            spectra_14x10 = self.shap_values[i].ravel()[:140].reshape(14,10)
+            
+            spectra_10x8 = self.shap_values[i].ravel()[140:220].reshape(10,8)
+            spectra_16x12 = self.shap_values[i].ravel()[220:].reshape(16,12)
+         
+            spectra = [spectra_14x10, spectra_10x8, spectra_16x12]
 
-			for ii, (spec, x, y, H_scale, N_scale) in enumerate(zip(spectra, [10,8,12], [14,10,16], [0.5,0.625,0.4166666666666667], [3.5714285714285716,5,3.125])):
+            for ii, (spec, x, y, H_scale, N_scale) in enumerate(zip(spectra, [10,8,12], [14,10,16], [0.5,0.625,0.4166666666666667], [3.5714285714285716,5,3.125])):
 
-				im = axs[i][ii].imshow(spec, cmap="coolwarm", vmax=0.032, vmin=-0.032)
-				cbar = fig.colorbar(im, extend="both")
-				axs[i][ii].set_xticks(np.arange(x))
-				axs[i][ii].set_yticks(np.arange(y))
+                im = axs[i][ii].imshow(spec, cmap="coolwarm", vmax=0.032, vmin=-0.032)
+                cbar = fig.colorbar(im, extend="both")
+                axs[i][ii].set_xticks(np.arange(x))
+                axs[i][ii].set_yticks(np.arange(y))
 
-				#axs[i][ii].set_xlabel("H-Shift in ppm")
-				#axs[i][ii].set_ylabel("N-Shift in ppm")
+                #axs[i][ii].set_xlabel("H-Shift in ppm")
+                #axs[i][ii].set_ylabel("N-Shift in ppm")
 
-				
-				axs[i][ii].set_xticks(np.arange(x), [str(round(i,1)) for i in np.arange(6,11,H_scale)], rotation=45)
-				axs[i][ii].set_yticks(np.arange(y), [str(round(i,1)) for i in np.arange(90,140,N_scale)])
-				
-				axs[i][ii].set_xlim(x-0.5,-0.5)
+                
+                axs[i][ii].set_xticks(np.arange(x), [str(round(i,1)) for i in np.arange(6,11,H_scale)], rotation=45)
+                axs[i][ii].set_yticks(np.arange(y), [str(round(i,1)) for i in np.arange(90,140,N_scale)])
+                
+                axs[i][ii].set_xlim(x-0.5,-0.5)
 
-				N_shifts = sorted(list(range(spec.shape[0]))*spec.shape[1])
-				H_shifts = list(range(spec.shape[1]))*spec.shape[0]
+                N_shifts = sorted(list(range(spec.shape[0]))*spec.shape[1])
+                H_shifts = list(range(spec.shape[1]))*spec.shape[0]
 
-				axs[i][ii].scatter(x=H_shifts, y=N_shifts, s=count_matrix[ii], color="black", alpha=0.3) 
+                axs[i][ii].scatter(x=H_shifts, y=N_shifts, s=count_matrix[ii], color="black", alpha=0.3) 
 
         plt.tight_layout()
         plt.show()
@@ -145,17 +148,9 @@ if __name__ == "__main__":
         print("*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+")
         print("Ubiquitin prediction from 5387 backbone spectrum of the BMRB")
         print("*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+")
-        peak_list = pd.read_csv("/opt/topspin4.2.0/python/examples/SSP/BMRB_peak_list_ubiquitin.csv")
-        N_shifts = peak_list["Y_shift"].to_list()
-        H_shifts = peak_list["X_shift"].to_list()
-
-    elif len(sys.argv) > 1 and sys.argv[1].endswith(".csv"):
-        print("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ")
-        print(f"Spectrum prediction from {os.getcwd() + '/' + sys.argv[1]}")
-        print("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ")
-        peak_list = pd.read_csv(sys.argv[1])
-        #N_shifts = peak_list["x(F1) [ppm]"].to_list()
-        #H_shifts = peak_list["x(F2) [ppm]"].to_list()
+        script_directory = os.path.dirname(os.path.abspath(__file__))
+        subdir_path = os.path.join(script_directory, "hsqc2struc")
+        peak_list = pd.read_csv(subdir_path+"/BMRB_peak_list_ubiquitin.csv")
         N_shifts = peak_list["Y_shift"].to_list()
         H_shifts = peak_list["X_shift"].to_list()
 
@@ -213,17 +208,15 @@ if __name__ == "__main__":
 
     print(f" Secondary Structure Prediction \n -------------------------------- \n Helix: {round(prediction[2],3)*100:.1f}%  \n Sheet: {round(prediction[1],3)*100:.1f}% \n Coil: {round(prediction[0],3)*100:.1f}%")
     
-    #print("I need to update the requirement file")
-
     if "shap" in sys.argv:
         import matplotlib.pyplot as plt
         import shap
         predictor.calc_shap_values()
         predictor.build_shap_spectra()
 
-    if sys.argv[1] == "test":
-        if str(21.2) == str(round(prediction[2],3)*100)[:4] and str(36.1) ==str(round(prediction[1],3)*100)[:4] and str(42.8) == str(round(prediction[0],3)*100)[:4]:
+    if len(sys.argv) > 1 and sys.argv[1] == "test":
+        if str(25.5) == str(round(prediction[2],3)*100)[:4] and str(16.9) ==str(round(prediction[1],3)*100)[:4] and str(57.6) == str(round(prediction[0],3)*100)[:4]:
             print("\n \n \t \t <<< PREDICTION TEST PASSED >>> ")
         else:
             print("\n \n \t \t >>> PREDICTION TEST FAILED!!!!!!! <<< ")
-            print("Possibly you are currently using a different model") 
+            print("Possibly you are currently using a different model?") 
