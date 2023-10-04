@@ -21,9 +21,12 @@ class SecStrucPredictor():
         subdir_path = os.path.join(script_directory, "hsqc2struc")
 
         self.predictor = CatBoostRegressor()
-        self.predictor.load_model(subdir_path+"/JD_8257_3979_NxH_a14x10_b10x8_c16x12.cbm")
+        self.predictor.load_model(subdir_path+"/"+self.get_model())
     
-
+    def get_model(self):
+        #8257 BMRB-PDB match, 3514 proteins, NxH binning: 14x10 (helix), 10x8 (sheet), 16x12 (coil) 
+        return 'JD_8257_3979_NxH_a14x10_b10x8_c16x12.cbm'
+        
     def get_input(self, input_matrices):
         """reads input matrix"""
         self.matrix_14x10 = input_matrices[0]
@@ -141,7 +144,7 @@ def generate_count_peaks_matrix(binned_H_shifts, binned_N_shifts, H_num_1D_grid,
     for H_shift_bin, N_shift_bin in zip(binned_H_shifts, binned_N_shifts):
         count_peaks_matrix[N_shift_bin, H_shift_bin] += 1
 
-    return count_peaks_matrix
+        return count_peaks_matrix
     
 
 if __name__ == "__main__":
