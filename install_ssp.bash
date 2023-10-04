@@ -19,7 +19,7 @@ cd ..
 conda create --name hsqc2struc python=3.10
 conda activate hsqc2struc
 conda install pip
-git clone https://github.com/bellstedt-lab/hsqc2struc
+
 python3 -m pip install hsqc2struc/requirements.txt ts_remote_api*.whl bruker_nmr_api*.whl
 ln -s hsqc2struc/ssp.py ssp.py
 
