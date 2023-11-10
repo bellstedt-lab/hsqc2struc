@@ -13,25 +13,26 @@ class SecStrucPredictor():
     def __init__(self):
         """initializes the input matrices and loads the predictor model"""
         self.predictor = CatBoostRegressor()
+        #8257 BMRB-PDB match, 3514 proteins, NxH binning: 14x10 (helix), 10x8 (sheet), 16x12 (coil) 
         self.predictor.load_model("JD_8257_3979_NxH_a14x10_b10x8_c16x12.cbm")
-    
-
+        self.model_dimensions = { "a": {"N": 14, "H": 10},"b": {"N": 10, "H": 8},"c": {"N": 16, "H": 12}}
+        
     def get_input(self, input_matrices):
         """reads input matrix"""
-        self.matrix_20x10 = input_matrices[0]
-        self.matrix_26x10 = input_matrices[1]
-        self.matrix_10x8 = input_matrices[2]
+        self.matrix_a = input_matrices[0]
+        self.matrix_b = input_matrices[1]
+        self.matrix_c = input_matrices[2]
 
         return self
     
 
     def combine_inputs(self):
         """combines and reshapes the input matrices"""
-        self.matrix_20x10_1D = self.matrix_20x10.reshape(-1)
-        self.matrix_26x10_1D = self.matrix_26x10.reshape(-1)
-        self.matrix_10x8_1D = self.matrix_10x8.reshape(-1)
+        self.matrix_c_1D = self.matrix_a.reshape(-1)
+        self.matrix_b_1D = self.matrix_b.reshape(-1)
+        self.matrix_c_1D = self.matrix_c.reshape(-1)
 
-        self.combined_inputs = list(self.matrix_20x10_1D) + list(self.matrix_26x10_1D) + list(self.matrix_10x8_1D)
+        self.combined_inputs = list(self.matrix_a_1D) + list(self.matrix_b_1D) + list(self.matrix_c_1D)
 
         return self
 
@@ -137,7 +138,7 @@ if __name__ == "__main__":
     N_shift_max = 140 
     N_shift_min = 90
     
-    for H_num_1D_grid, N_num_1D_grid in [(10,20),(10,26),(8,10)]:
+    for H_num_1D_grid, N_num_1D_grid in [(dimensions['a']['H'],dimensions['a']['N']),(dimensions['b']['H'],dimensions['b']['N']),(dimensions['c']['H'],dimensions['c']['N'])]:
     
         H_binsize = (H_shift_max - H_shift_min) / H_num_1D_grid
         N_binsize = (N_shift_max - N_shift_min) / N_num_1D_grid
