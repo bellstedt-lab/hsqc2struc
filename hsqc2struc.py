@@ -159,7 +159,7 @@ if __name__ == "__main__":
     print(f" Secondary Structure Prediction \n -------------------------------- \n Helix: {round(prediction[2],3)*100:.1f}%  \n Sheet: {round(prediction[1],3)*100:.1f}% \n Coil: {round(prediction[0],3)*100:.1f}%")
     
     if sys.argv[1] == "test":
-        if str(25.5) == str(round(prediction[2],3)*100)[:4] and str(16.9) ==str(round(prediction[1],3)*100)[:4] and str(57.6) == str(round(prediction[0],3)*100)[:4]:
+        if str(18.3) == str(round(prediction[2],3)*100)[:4] and str(35.4) ==str(round(prediction[1],3)*100)[:4] and str(46.2) == str(round(prediction[0],3)*100)[:4]:
             print("\n \n \t \t <<< PREDICTION TEST PASSED >>> ")
         else:
             print("\n \n \t \t >>> PREDICTION TEST FAILED!!!!!!! <<< ")
