@@ -28,7 +28,7 @@ class SecStrucPredictor():
 
     def combine_inputs(self):
         """combines and reshapes the input matrices"""
-        self.matrix_c_1D = self.matrix_a.reshape(-1)
+        self.matrix_a_1D = self.matrix_a.reshape(-1)
         self.matrix_b_1D = self.matrix_b.reshape(-1)
         self.matrix_c_1D = self.matrix_c.reshape(-1)
 
