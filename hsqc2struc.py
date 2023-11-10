@@ -128,7 +128,7 @@ if __name__ == "__main__":
                 N_shifts.append(peak["position"][1])
 
 
-    predictor = SecStrucPredictor() 
+    pred = SecStrucPredictor() 
 
     input_matrices = []
     
@@ -138,7 +138,7 @@ if __name__ == "__main__":
     N_shift_max = 140 
     N_shift_min = 90
     
-    for H_num_1D_grid, N_num_1D_grid in [(dimensions['a']['H'],dimensions['a']['N']),(dimensions['b']['H'],dimensions['b']['N']),(dimensions['c']['H'],dimensions['c']['N'])]:
+    for H_num_1D_grid, N_num_1D_grid in [(pred.model_dim['a']['H'],pred.model_dim['a']['N']),(pred.model_dim['b']['H'],pred.model_dim['b']['N']),(pred.model_dim['c']['H'],pred.model_dim['c']['N'])]:
     
         H_binsize = (H_shift_max - H_shift_min) / H_num_1D_grid
         N_binsize = (N_shift_max - N_shift_min) / N_num_1D_grid
