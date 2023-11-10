@@ -152,9 +152,9 @@ if __name__ == "__main__":
         input_matrices.append(count_peaks_matrixes)
 
     
-    predictor.get_input(input_matrices)
-    predictor.combine_inputs()
-    prediction = predictor.predict_structure_composition()
+    pred.get_input(input_matrices)
+    pred.combine_inputs()
+    prediction = pred.predict_structure_composition()
 
     print(f" Secondary Structure Prediction \n -------------------------------- \n Helix: {round(prediction[2],3)*100:.1f}%  \n Sheet: {round(prediction[1],3)*100:.1f}% \n Coil: {round(prediction[0],3)*100:.1f}%")
     
