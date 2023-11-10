@@ -15,7 +15,7 @@ class SecStrucPredictor():
         self.predictor = CatBoostRegressor()
         #8257 BMRB-PDB match, 3514 proteins, NxH binning: 14x10 (helix), 10x8 (sheet), 16x12 (coil) 
         self.predictor.load_model("JD_8257_3979_NxH_a14x10_b10x8_c16x12.cbm")
-        self.model_dimensions = { "a": {"N": 14, "H": 10},"b": {"N": 10, "H": 8},"c": {"N": 16, "H": 12}}
+        self.model_dim = { "a": {"N": 14, "H": 10},"b": {"N": 10, "H": 8},"c": {"N": 16, "H": 12}}
         
     def get_input(self, input_matrices):
         """reads input matrix"""
